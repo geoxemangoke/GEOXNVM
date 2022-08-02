@@ -1,18 +1,19 @@
 import React from "react";
 import './App.css'
+import Counter from './component/Counter'
 
 class User extends React.Component {
   render() {
       return (
         <div>
           <div>
-          username: {this.getUsername()}
+          username: {this.props.username}
         </div>
         <div>
-          email: {this.state.email}
+          email: {this.props.email}
         </div>
         <div>
-          <button onClick={this.changeUsername}>change username</button>
+          <button onClick={this.props.changeUsername}>change username</button>
         </div>
         </div>
       )
@@ -57,19 +58,15 @@ class App extends React.Component {
     console.log('render')
     return (
       <div>
-        <User email={this.state.email}/>
-        <div>
-          <button onClick={this.changeUsername}>change username</button>
-        </div>
-        <div className="App">
-          <div>{this.state.number}</div>
-          <div>
-            <button onClick={() => this.increment(1)}>+</button>
-          </div>
-          <div>
-            <button onClick={() => this.decrement(1)}>-</button>
-          </div>
-        </div>
+        <User email={this.state.email} 
+            username={this.getUsername()}
+              changeUsername={this.changeUsername}
+        />
+        
+        <Counter 
+          num={this.state.number}
+          increment={this.increment}
+          decrement={this.decrement}/>
       </div>
     )
   }
