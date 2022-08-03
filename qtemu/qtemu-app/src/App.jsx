@@ -1,18 +1,23 @@
+import { useEffect } from 'react';
 import { useState } from 'react';
 import './App.css';
 
 function App() {
   let defaultTitle = 'Default Title'
 
-  let  [title, setTitle] = useState({
+  let  [state, setState] = useState({
     title: defaultTitle,
-    counter: 0
+    counter: 1
   })
 
-  console.log(title, '================= 1')
+  // let  [count, setCount] = useState({
+  //   count: defaultCount
+  // })
+
+  console.log(state, '================= 1')
 
   function changeTitle(updateTitle) {
-    setTitle((prevState) => {
+    setState((prevState) => {
       console.log(prevState, '================ prevState ============')
       // prevState.title =updateTitle
       return {
@@ -22,11 +27,29 @@ function App() {
     })
   }
 
+  // function increment(count) {
+  //   setCount((prevCount) => {
+  //     return {
+  //       ...prevCount,
+  //       count:prevCount.count + 1
+  //     }
+  //   })
+  // }
+
+  // function decrement(count) {
+  //   setCount((prevState) => {
+  //       return {
+  //         ...prevState,
+  //         counter: prevState.counter - count
+  //       }
+  //     })    
+  // }
+
   // this.setState({})
   function Header(props) {
     return (
       <div>
-        <h1>{props.title || title}</h1>
+        <h1>{props.state || state}</h1>
       </div>
     )
   }
@@ -49,13 +72,40 @@ function App() {
     )
   }
 
+  function Counter({initialCount}) {
+    const [count, setCount] = useState(initialCount)
+
+    useEffect(() => {
+      console.log("============ default Value =========")
+      setCount(1)
+    }, [])
+
+    return (
+      <>
+        Count: {count}
+        <br></br>
+        <button onClick={() => setCount(initialCount)}>Reset</button>&nbsp;
+        <button onClick={() => setCount(prevCount => prevCount + 1)}>Increment</button>&nbsp;
+        <button onClick={() => {
+            if(count > 1) {
+              setCount(prevCount => prevCount - 1)
+            }
+          }
+        }>Decrement</button>
+      </>
+    )
+  }
+
+  
   return (
     <div className='App'>
-      <Header title={'My Title'}/>
+      <Header state={'My Title'}/>
       <hr/>
       <Content/>
       <br/>
-      <button onClick={() => changeTitle('Test Title')}> Change Title</button>
+      <button onClick={() => changeTitle('Test Title')}>Change Title</button>
+      <hr/>
+      <Counter initialCount={1}/>
       <hr/>
       <Footer/>
     </div>
