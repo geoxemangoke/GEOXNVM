@@ -1,16 +1,23 @@
-import items from "../items";
-import { useParams } from "react-router-dom";
+import axios from "axios"
+import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
 
 const Item = () => {
     const params = useParams()
-    const matchIem = items.find(item => item.id == params.itemId)
-
+    const [person, setPerson] = useState({})
+    useEffect(() => {
+        axios.get(`https://jsonplaceholder.typicode.com/users/${params.itemId}`)
+            .then(({ data }) => {
+                setPerson(data)
+            })
+    }, [person])
+    
     return (
         <div>
-            <h1>{matchIem.name}</h1>
-            <p>Power : {matchIem.power}</p>
+            <h3>{person.name}</h3>
+            <b>Email:</b> {person.email}
         </div>
     )
 }
 
-export default Item;
+export default Item
