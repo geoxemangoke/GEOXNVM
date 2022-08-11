@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import React from 'react';
 
-export const LoginScreen = () => {
+export const Currency = () => {
     const listCCy = ['CAD','EUR','IDR','JPY','CHF','GBP']
     const [ccy, setCCY] = useState(0);
 
