@@ -1,10 +1,10 @@
 import './App.css';
-import {LoginPages} from './components/pages/LoginPages'
+import {Currency} from './components/pages/Currency'
 
 function App() {
   return (
     <div>
-      <LoginPages/>
+      <Currency/>
     </div>
   );
 }

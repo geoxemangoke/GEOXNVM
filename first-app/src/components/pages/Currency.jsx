@@ -14,14 +14,14 @@ export const LoginScreen = () => {
 
     const percentLower = (actual) => {
         console.log(actual, '===================== actual')
-        let temp = actual - (5/100 * actual)
+        let temp = actual - ((5/100) * actual)
         console.log(temp, '===================== percentLower')
         return temp
     }
 
     const percentHigher = (actual) => {
         console.log(actual, '===================== actual')
-        let temp = actual + (5/100 * actual)
+        let temp = actual + ((5/100) * actual)
         console.log(temp, '===================== percentHigher')
         return temp
     }
