@@ -13,6 +13,9 @@ const Home = () => {
                 <button role='button' onClick={() => navigate('/users')}>
                     Go To User List
                 </button>
+                {
+                    eval('1+5+9-8')
+                }
             </div>
         </>
     )
