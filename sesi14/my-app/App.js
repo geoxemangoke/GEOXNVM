@@ -40,12 +40,12 @@ export default function App() {
           </MyButton>          
         </View>
         <ScrollView>
-        <Text>User List{"\n"}</Text>
-          {users.map(user => {
+        <Text key="userlist">User List{"\n"}</Text>
+          {users.map((user, index) => {
                 return (
                     <>
-                        <Text>Name: {user.name}{"\n"}</Text>   
-                        <Text>Email: {user.email}{"\n"}</Text> 
+                        <Text key={index}>Name: {user.name}</Text>   
+                        <Text key={user.email}>Email: {user.email}{"\n"}</Text> 
                     </>
                 )
             })}
