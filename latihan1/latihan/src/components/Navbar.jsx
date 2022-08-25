@@ -1,38 +1,47 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { generatePath, useNavigate } from "react-router-dom";
 
 const NavBar = (props) => {
   const [counter, setCounter] = useState(0);
-  const [namaFilm, setNamaFilm] = useState();
-  const [flag, setFlag] = useState(0);
+  const [namaFilm, setNamaFilm] = useState([]);
+  const [flag, setFlag] = useState();
   const navigate = useNavigate();
+  const searchInput = useRef(null);
   
   function doSearch(e) {
     e.preventDefault();
 
     navigate(generatePath(`:url?s=:queryString`, {
       url: "/search",
-      queryString: `${document.getElementById("judul").value}`
+      queryString: `${searchInput.current.value}`
     }));
 
-    setNamaFilm(document.getElementById("judul").value);
+    setNamaFilm(searchInput.current.value);
     setFlag(1);
   }
 
   const getData = async () => {
-    const res = await axios.get(
+    await axios.get(
       `http://www.omdbapi.com/?apikey=a28eba38&s=${namaFilm}`
-    );
-    props.handleMovieCollection(res.data.Search);
+    )
+    .then(({ data }) => {
+      console.log("hit data");
+      props.handleMovieCollection(data);
+    },({ error }) => {
+      console.log("hit error");
+      props.handleMovieCollection(error);
+    });
   };
 
   useEffect(() => {
     if (flag === 1) {
-        props.handleMovieCollection([]);
-      getData();
+      props.handleMovieCollection([]);
       setFlag(0);
+      getData();
+      console.log(namaFilm, " namaFIlm")
     }
+    console.log(flag, " flag")
   }, [flag]);
 
   const incrementCount = () => {
@@ -40,27 +49,29 @@ const NavBar = (props) => {
     setCounter(counter + 1);
   };
 
-    return (
-      <div className="header bg-warning">
-        <div className="container">
-          <nav className="navbar navbar-light">
-              <a href="/" className="navbar-brand fw-bold fs-4">{props.title}</a>
-              <form className="d-flex" role="search">
-                <input
-                  className="form-control me-2 input-textbox"
-                  type="text"
-                  id="judul"
-                  placeholder="Search..."
-                  aria-label="Search"
-                />
-                <button className="button btn btn-dark" onClick={doSearch}>
-                  Search
-                </button>
-              </form>
-          </nav>
-        </div>
+  return (
+    <div className="header bg-warning">
+      <div className="container">
+        <nav className="navbar navbar-light">
+            <a href="/" className="navbar-brand fw-bold fs-4">{props.title}</a>
+            <form className="d-flex" role="search" onSubmit={doSearch}>
+              <input
+                className="form-control me-2 input-textbox"
+                type="text"
+                id="judul"
+                placeholder="Search..."
+                aria-label="Search"
+                ref={searchInput}
+                required
+              />
+              <button className="button btn btn-dark">
+                Search
+              </button>
+            </form>
+        </nav>
       </div>
-    )
+    </div>
+  )
 }
 
 export default NavBar;
