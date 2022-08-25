@@ -1,29 +1,33 @@
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import { useState } from "react";
+import { Link } from "react-router-dom";
+import Loading from "../components/Loading";
 
 const Search = (props) => {
-  const [counter, setCounter] = useState(0);
+  const isLoading = props.list.length === 0;
 
   return (
     <>
-      <div style={styles.container}>
-        {/* <div>
-            <Header title={props.title} />
-          </div> */}
-        {props.list && (
-          <div>
+      <div className="container mt-3">
+        {
+        isLoading ? 
+          <Loading />
+        :
+        props.list && (
+          <div className="fs-3 fw-bold">
             <p>Show your favorites Movies</p>
           </div>
         )}
         <div className="row row-cols-4">
-          {props.list &&
+          {
+          props.list &&
             props.list.map((imdb, index) => (
               <>
-                <div key={index} className="col pb-4">
-                  <img src={imdb.Poster} /> <br></br>
-                  <a href={`/about?id=${imdb.imdbID}`}>{imdb.Title}</a>
+                <div key={index} className="col-lg-3 align-items-stretch pb-4">
+                  <div className="card">
+                      <img src={imdb.Poster} className="card-img-top" alt={imdb.Title}/>
+                      <div className="card-body bg-dark text-center">
+                          <Link to={`/about?id=${imdb.imdbID}`} className="card-link text-light">{imdb.Title}</Link>
+                      </div>
+                  </div>
                 </div>
               </>
             ))}
@@ -34,31 +38,3 @@ const Search = (props) => {
 };
 
 export default Search;
-
-const styles = {
-  container: {
-    margin: 5,
-    flex: 1,
-    flexDirection: "column",
-    flexWrap: "wrap",
-    alignItems: "flex-start",
-  },
-  row: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-  },
-  col: {
-    flexDirection: "column",
-    flexWrap: "wrap",
-  },
-  div: {
-    columns: "2 auto",
-  },
-  ul: {
-    flexWrap: "wrap",
-    display: "flex",
-  },
-  li: {
-    flex: "1 0 25%",
-  },
-};
