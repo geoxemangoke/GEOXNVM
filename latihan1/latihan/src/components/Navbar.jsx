@@ -26,10 +26,8 @@ const NavBar = (props) => {
       `http://www.omdbapi.com/?apikey=a28eba38&s=${namaFilm}`
     )
     .then(({ data }) => {
-      console.log("hit data");
       props.handleMovieCollection(data);
     },({ error }) => {
-      console.log("hit error");
       props.handleMovieCollection(error);
     });
   };
@@ -39,9 +37,7 @@ const NavBar = (props) => {
       props.handleMovieCollection([]);
       setFlag(0);
       getData();
-      console.log(namaFilm, " namaFIlm")
     }
-    console.log(flag, " flag")
   }, [flag]);
 
   const incrementCount = () => {
