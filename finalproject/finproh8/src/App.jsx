@@ -1,30 +1,39 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
 import "./App.css";
-import Header from "./components/Header";
-import Search from "./components/Search";
-import Navbar from "react-bootstrap/Navbar";
-import Container from "react-bootstrap/Container";
+import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
+import NavBar from "./components/Navbar";
+import About from "./pages/About";
+import Home from "./pages/Home";
+import Footer from "./components/Footer";
+import Search from "./pages/Search";
+import NoMatchError from "./pages/NoMatch";
+import { useState } from "react";
+import { useSearchParams, Route, Routes} from "react-router-dom";
 
 function App() {
-  const judul = "FinProH8";
+  const title = useState("FinProH8");
+  const [list, setList] = useState([]);
+  const [searchParams ] = useSearchParams();
 
+  let component;
+
+  if (window.location.pathname.includes("about")) {
+    component = <About imdbID={searchParams.get("id")} />;
+  }
   return (
-    <Navbar bg="light">
-      {/* <div className="App">
-        <Search title="FinProH8" />
-      </div> */}
-      <Container>
-        <Navbar.Brand href="#home">{judul}</Navbar.Brand>
-        <Navbar.Toggle />
-        <Navbar.Collapse className="justify-content-end">
-          <Search title="FinProH8" />
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+    <div className="d-flex flex-column min-vh-100">
+      <div className="header bg-warning">
+        <NavBar handleMovieCollection={setList} title={title} />
+      </div>
+      
+      <Routes>
+        <Route path="/" exact element={<Home />} />
+        <Route path="/search" element={<Search list={list} />} />
+        <Route path="/about" element={component} />
+        <Route path="*" element={<NoMatchError />} />
+      </Routes>
+      <Footer />
+    </div>
   );
 }
 
