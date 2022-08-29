@@ -8,32 +8,42 @@ const Search = (props) => {
   return (
     <>
       <div className="container mt-3">
-        {
-        isLoading ? 
+        {isLoading ? (
           <Loading />
-        :
-        props.list.Search && (
-          <div className="fs-3 fw-bold">
-            <p>Show your favorites Movies</p>
-          </div>
+        ) : (
+          props.list.Search && (
+            <div className="fs-3 fw-bold">
+              <p>Show your favorites Movies</p>
+            </div>
+          )
         )}
         <div className="row row-cols-4">
-          {props.list.Error ? 
-            <NoMatchError error={props.list.Error}/> 
-          :
-          props.list.Search &&
+          {props.list.Error ? (
+            <NoMatchError error={props.list.Error} />
+          ) : (
+            props.list.Search &&
             props.list.Search.map((imdb, index) => (
               <>
                 <div key={index} className="col-lg-3 align-items-stretch pb-4">
                   <div className="card">
-                      <img src={imdb.Poster} className="card-img-top" alt={imdb.Title}/>
-                      <div className="card-body bg-dark text-center">
-                          <Link to={`/about?id=${imdb.imdbID}`} className="card-link text-light">{imdb.Title}</Link>
-                      </div>
+                    <img
+                      src={imdb.Poster}
+                      className="card-img-top"
+                      alt={imdb.Title}
+                    />
+                    <div className="card-body bg-dark text-center">
+                      <Link
+                        to={`/about?id=${imdb.imdbID}`}
+                        className="card-link text-light"
+                      >
+                        {imdb.Title}
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </>
-            ))}
+            ))
+          )}
         </div>
       </div>
     </>
